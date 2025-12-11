@@ -226,6 +226,9 @@ async function migrateUserScores() {
 }
 
 function startGame() {
+    // Ensure audio context is running before we start recording
+    audioManager.unlockAudio();
+
     const newReplayRecorder = new ReplayRecorder(renderer.domElement, audioManager);
     game.start(newReplayRecorder);
     ui.hideGameOver();

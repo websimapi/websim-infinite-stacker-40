@@ -89,9 +89,9 @@ export class ReplayRecorder {
                 };
             });
 
-            this.mediaRecorder.start();
+            // Defer starting the recorder until the first rendered frame
             this.isRecording = true;
-            // Note: update() is now called from the main render loop to ensure synchronization
+            this._hasStartedRecorder = false;
 
         } catch (e) {
             console.error("Error initializing MediaRecorder:", e);
@@ -100,6 +100,12 @@ export class ReplayRecorder {
 
     update() {
         if (!this.isRecording) return;
+
+        // Start the MediaRecorder on the first rendered frame to align audio with visuals
+        if (this.mediaRecorder && !this._hasStartedRecorder) {
+            this.mediaRecorder.start();
+            this._hasStartedRecorder = true;
+        }
 
         const ctx = this.ctx;
         

@@ -7,7 +7,6 @@ export class ReplayRecorder {
         this.mediaRecorder = null;
         this.recordPromise = null;
         this.audioDestination = null;
-        this.animationFrameId = null;
 
         // Setup 9:16 Recording Canvas (Mobile Shorts Format)
         this.width = 1080;
@@ -93,14 +92,14 @@ export class ReplayRecorder {
 
             this.mediaRecorder.start();
             this.isRecording = true;
-            this.drawFrame();
-
+            // Draw immediately handled by main loop
+        
         } catch (e) {
             console.error("Error initializing MediaRecorder:", e);
         }
     }
 
-    drawFrame() {
+    update() {
         if (!this.isRecording) return;
 
         const ctx = this.ctx;
@@ -173,8 +172,6 @@ export class ReplayRecorder {
              ctx.textBaseline = 'top';
              ctx.fillText("PLAY NOW", boxX + boxW / 2, boxY + boxPadding + qrSize + textGap);
         }
-
-        this.animationFrameId = requestAnimationFrame(() => this.drawFrame());
     }
 
     stop() {
@@ -182,10 +179,6 @@ export class ReplayRecorder {
             this.mediaRecorder.stop();
         }
         this.isRecording = false;
-        if (this.animationFrameId) {
-            cancelAnimationFrame(this.animationFrameId);
-            this.animationFrameId = null;
-        }
     }
 
     async getReplayBlob() {

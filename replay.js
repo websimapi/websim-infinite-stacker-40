@@ -14,6 +14,11 @@ export class ReplayRecorder {
         this.canvas.width = this.width;
         this.canvas.height = this.height;
         this.ctx = this.canvas.getContext('2d');
+        // Track where the game is rendered so we can align overlays to it
+        this.renderX = 0;
+        this.renderY = 0;
+        this.renderW = this.width;
+        this.renderH = this.height;
 
         // Load QR Code
         this.qrImage = new Image();
@@ -157,6 +162,12 @@ export class ReplayRecorder {
                 renderY = 0;
             }
             
+            // Save render area for overlay alignment
+            this.renderX = renderX;
+            this.renderY = renderY;
+            this.renderW = renderW;
+            this.renderH = renderH;
+
             ctx.drawImage(this.sourceCanvas, renderX, renderY, renderW, renderH);
         }
 
@@ -164,15 +175,16 @@ export class ReplayRecorder {
         if (this.qrImage.complete && this.qrImage.naturalWidth > 0) {
              const padding = 20;
              const boxPadding = 8;
-             const qrSize = 80;
+             const qrSize = 160; // 2x larger than before
              const fontSize = 10;
              const textGap = 4;
              
              const boxW = qrSize + boxPadding * 2;
              const boxH = qrSize + boxPadding * 2 + fontSize + textGap;
              
-             const boxX = this.width - boxW - padding;
-             const boxY = this.height - boxH - padding;
+             // Align QR to hug the bottom of the rendered game area, centered horizontally
+             const boxX = this.renderX + (this.renderW - boxW) / 2;
+             const boxY = this.renderY + this.renderH - boxH - padding;
              
              // Shadow
              ctx.save();

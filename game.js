@@ -79,6 +79,10 @@ export class Game {
 
     onPointerDown() {
         if (this.gameState === 'playing') {
+            // Start recording exactly on first gameplay interaction
+            if (this.replayRecorder && !this.replayRecorder.hasStarted()) {
+                this.replayRecorder.beginRecordingOnce();
+            }
             this.placeBlock();
         }
     }

@@ -89,30 +89,34 @@ export class ReplayRecorder {
                 };
             });
 
-            // Defer starting the MediaRecorder until the first rendered frame,
-            // so audio and video timelines begin exactly when the game frame is drawn.
+            // Do not start recording yet; wait for first gameplay interaction
             this.isRecording = false;
-            this.startOnNextFrame = true;
+            this.started = false;
 
         } catch (e) {
             console.error("Error initializing MediaRecorder:", e);
         }
     }
 
-    update() {
-        // Start recording exactly on the first frame we actually draw,
-        // so the first video frame and audio samples line up.
-        if (this.startOnNextFrame && this.mediaRecorder && this.mediaRecorder.state === 'inactive') {
-            this.startOnNextFrame = false;
-            try {
-                this.mediaRecorder.start();
-                this.isRecording = true;
-            } catch (e) {
-                console.error("Failed to start MediaRecorder on first frame:", e);
-            }
+    beginRecordingOnce() {
+        if (!this.mediaRecorder || this.started) return;
+        try {
+            this.mediaRecorder.start();
+            this.isRecording = true;
+            this.started = true;
+        } catch (e) {
+            console.error("Failed to start MediaRecorder:", e);
         }
+    }
 
-        if (!this.isRecording) return;
+    hasStarted() {
+        return !!this.started;
+    }
+
+    update() {
+        if (!this.isRecording || !this.mediaRecorder || this.mediaRecorder.state === 'inactive') {
+            return;
+        }
 
         const ctx = this.ctx;
         

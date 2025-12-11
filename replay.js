@@ -176,14 +176,14 @@ export class ReplayRecorder {
              const padding = 20;
              const boxPadding = 8;
              const qrSize = 160; // 2x larger than before
-             const fontSize = 10;
+             const fontSize = 20; // 2x larger text
              const textGap = 4;
              
              const boxW = qrSize + boxPadding * 2;
              const boxH = qrSize + boxPadding * 2 + fontSize + textGap;
              
-             // Align QR to hug the bottom of the rendered game area, centered horizontally
-             const boxX = this.renderX + (this.renderW - boxW) / 2;
+             // Align QR to hug the bottom-right of the rendered game area
+             const boxX = this.renderX + this.renderW - boxW - padding;
              const boxY = this.renderY + this.renderH - boxH - padding;
              
              // Shadow
@@ -211,7 +211,7 @@ export class ReplayRecorder {
              ctx.font = `bold ${fontSize}px Arial, sans-serif`;
              ctx.textAlign = 'center';
              ctx.textBaseline = 'top';
-             ctx.fillText("PLAY NOW", boxX + boxW / 2, boxY + boxPadding + qrSize + textGap);
+             ctx.fillText("Play Now on Websim.ai", boxX + boxW / 2, boxY + boxPadding + qrSize + textGap);
         }
     }
 

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Infinite Stacker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="container">
+        <canvas id="game-canvas"></canvas>
+    </div>
+    <div id="ui">
+        <div id="score">0</div>
+        <div id="perfect-streak">Perfect! <span>0</span></div>
+        <button id="leaderboard-button">🏆</button>
+        <div id="instructions">Tap to place the block</div>
+        <div id="game-over" class="hidden">
+            <h2>Game Over</h2>
+            <p>Your score: <span id="final-score">0</span></p>
+            <p id="submit-status"></p>
+            <div id="replay-controls">
+                <button id="replay-button">Watch Replay</button>
+            </div>
+            <button id="restart-button">Restart</button>
+        </div>
+        <div id="replay-viewer" class="hidden">
+            <video id="replay-video" controls loop></video>
+            <div id="replay-controls-bottom">
+                <button id="close-replay">Close</button>
+                <button id="download-replay">Download</button>
+            </div>
+        </div>
+    </div>
+    <div id="leaderboard" class="hidden">
+        <h2>Leaderboard</h2>
+        <div id="leaderboard-tabs">
+            <button id="global-scores-tab" class="active">Global</button>
+            <button id="my-scores-tab">My Scores</button>
+        </div>
+        <ul id="leaderboard-list"></ul>
+        <div id="leaderboard-pagination">
+            <button id="prev-page">← Previous</button>
+            <span id="page-info">Page 1</span>
+            <button id="next-page">Next →</button>
+        </div>
+        <button id="close-leaderboard">Close</button>
+    </div>
+
+    <script src="/websim/websim-socket.js"></script>
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "cannon-es": "https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.js",
+            "remotion": "https://esm.sh/remotion@4.0.350?external=react,react-dom&dev",
+            "@remotion/player": "https://esm.sh/@remotion/player@4.0.350?external=react,react-dom&dev",
+            "@remotion/gif": "https://esm.sh/@remotion/gif@4.0.350?external=react,react-dom,remotion&dev",
+            "@remotion/transitions": "https://esm.sh/@remotion/transitions@4.0.350?external=react,react-dom,remotion&dev",
+            "@websim/remotion/player": "https://esm.websim.com/@websim/remotion/player",
+            "mediabunny": "https://esm.sh/mediabunny@1.19.1"
+        }
+    }
+    </script>
+    <script type="module" src="main.js"></script>
+    <script type="module" src="score-storage.js"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"4c6229722a6346bc8eb5cb0e5eae5d41","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>

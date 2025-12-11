@@ -1,0 +1,397 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+#container {
+    width: 100vw;
+    height: 100vh;
+}
+
+#game-canvas {
+    display: block;
+}
+
+#ui {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+#score {
+    font-size: 4em;
+    margin-top: 20px;
+    display: none;
+}
+
+#perfect-streak {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -150px);
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #ffd700;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+    opacity: 0;
+    transition: opacity 0.5s, transform 0.5s;
+    pointer-events: none;
+    z-index: 10;
+}
+
+#perfect-streak.visible {
+    opacity: 1;
+    transform: translate(-50%, -200px);
+}
+
+#perfect-streak.hidden {
+    display: none;
+}
+
+#leaderboard-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 2em;
+    background: none;
+    border: none;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+#instructions {
+    font-size: 1.5em;
+    position: absolute;
+    bottom: 20%;
+    opacity: 1;
+    transition: opacity 0.5s;
+}
+
+#instructions.hidden {
+    opacity: 0;
+}
+
+
+#game-over {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 20px 40px;
+    border-radius: 10px;
+    text-align: center;
+    pointer-events: auto;
+    max-width: 90%;
+}
+
+#game-over.hidden {
+    display: none;
+}
+
+#game-over h2 {
+    margin-top: 0;
+}
+
+#submit-status {
+    min-height: 1.2em;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+#replay-controls {
+    margin: 15px 0;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#replay-controls.hidden {
+    display: none;
+}
+
+#replay-controls button,
+#restart-button,
+#submit-score-button {
+    font-size: 1.2em;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    pointer-events: auto;
+}
+
+#submit-score-button {
+    background-color: #ff9800;
+    margin-bottom: 15px;
+}
+#submit-score-button:hover {
+    background-color: #f57c00;
+}
+
+#replay-controls button:hover,
+#restart-button:hover {
+    background-color: #45a049;
+}
+
+#restart-button {
+    background-color: #2196F3;
+}
+
+#restart-button:hover {
+    background-color: #45a049;
+}
+
+#replay-button {
+    background-color: #2196F3;
+}
+
+#replay-button:hover {
+    background-color: #0b7dda;
+}
+
+#leaderboard {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    pointer-events: auto;
+    max-width: 90%;
+    width: 350px;
+    color: white;
+    z-index: 1000;
+}
+
+#leaderboard.hidden {
+    display: none;
+}
+
+#leaderboard h2 {
+    margin-top: 0;
+}
+
+#leaderboard-tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#leaderboard-tabs button {
+    background: none;
+    border: none;
+    color: #ccc;
+    font-size: 1.1em;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+}
+
+#leaderboard-tabs button.active {
+    color: white;
+    font-weight: bold;
+    border-bottom-color: #2196F3;
+}
+
+#leaderboard-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+}
+
+#leaderboard-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+#leaderboard-list li:last-child {
+    border-bottom: none;
+}
+
+#leaderboard-list .rank {
+    font-weight: bold;
+    min-width: 30px;
+    text-align: left;
+}
+
+#leaderboard-list .username {
+    flex-grow: 1;
+    text-align: left;
+    margin-left: 10px;
+}
+
+#leaderboard-list .score {
+    font-weight: bold;
+}
+
+#leaderboard-list button {
+    background: #2196F3;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+#leaderboard-list button:hover {
+    background: #0b7dda;
+}
+
+#leaderboard-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+#leaderboard-pagination button {
+    font-size: 0.9em;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #2196F3;
+    color: white;
+}
+
+#leaderboard-pagination button:hover:not(:disabled) {
+    background-color: #0b7dda;
+}
+
+#leaderboard-pagination button:disabled {
+    background-color: #666;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+#page-info {
+    font-weight: bold;
+    min-width: 80px;
+    text-align: center;
+}
+
+#close-leaderboard {
+    font-size: 1em;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #f44336;
+    color: white;
+}
+
+#close-leaderboard:hover {
+    background-color: #da190b;
+}
+
+
+#replay-viewer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    pointer-events: auto;
+    max-width: 90%;
+    z-index: 1000;
+}
+
+#replay-viewer.hidden {
+    display: none;
+}
+
+#replay-video {
+    width: 100%;
+    max-height: 70vh;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+#replay-controls-bottom {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#replay-controls-bottom button {
+    font-size: 1em;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+}
+
+#replay-controls-bottom button:hover {
+    background-color: #45a049;
+}
+
+#close-replay {
+    background-color: #f44336;
+}
+
+#close-replay:hover {
+    background-color: #da190b;
+}
+
+#download-replay {
+    background-color: #2196F3;
+}
+
+#download-replay:hover {
+    background-color: #0b7dda;
+}
+
+#leaderboard-button.uploading {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+#leaderboard-button.upload-complete {
+    animation: bounce 0.5s ease-in-out;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}

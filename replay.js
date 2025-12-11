@@ -211,7 +211,7 @@ export class ReplayRecorder {
              ctx.font = `bold ${fontSize}px Arial, sans-serif`;
              ctx.textAlign = 'center';
              ctx.textBaseline = 'top';
-             ctx.fillText("Play Now on Websim.ai", boxX + boxW / 2, boxY + boxPadding + qrSize + textGap);
+             ctx.fillText("Scan to Play ~ Websim..ai", boxX + boxW / 2, boxY + boxPadding + qrSize + textGap);
         }
     }
 

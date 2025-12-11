@@ -175,7 +175,7 @@ export class ReplayRecorder {
         if (this.qrImage.complete && this.qrImage.naturalWidth > 0) {
              const padding = 20;
              const boxPadding = 8;
-             const qrSize = 160; // 2x larger than before
+             const qrSize = 240; // 1.5x larger than previous 160
              const fontSize = 20; // 2x larger text
              const textGap = 4;
              

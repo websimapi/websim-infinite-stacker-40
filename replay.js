@@ -21,7 +21,8 @@ export class ReplayRecorder {
         this.qrImage.src = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://stacker.on.websim.com&bgcolor=ffffff&color=000000&margin=0";
 
         try {
-            const videoStream = this.canvas.captureStream(fps);
+            // Use 0 to capture frames automatically when the canvas is painted to ensure perfect AV sync
+            const videoStream = this.canvas.captureStream(0);
             
             // Create audio destination node if audio context is available
             let combinedStream = videoStream;
@@ -66,7 +67,7 @@ export class ReplayRecorder {
 
             this.mediaRecorder = new MediaRecorder(combinedStream, {
                 mimeType: supportedMimeType,
-                videoBitsPerSecond: isFirefox ? undefined : 2500000,
+                videoBitsPerSecond: isFirefox ? undefined : 4000000,
             });
 
             this.mediaRecorder.ondataavailable = (e) => {

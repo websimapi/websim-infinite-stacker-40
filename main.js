@@ -582,6 +582,13 @@ function animate() {
 
     renderer.clearDepth();
     renderer.render(uiScene, uiCamera);
+
+    // Update replay recorder synchronously with render to avoid black frames / desync
+    // This ensures we capture the fully rendered frame, not a cleared buffer
+    const recorder = game.getReplayRecorder();
+    if (recorder) {
+        recorder.update();
+    }
 }
 
 init();

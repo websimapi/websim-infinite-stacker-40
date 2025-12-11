@@ -7,7 +7,6 @@ export class ReplayRecorder {
         this.mediaRecorder = null;
         this.recordPromise = null;
         this.audioDestination = null;
-
         // Setup 9:16 Recording Canvas (Mobile Shorts Format)
         this.width = 1080;
         this.height = 1920;
@@ -67,7 +66,7 @@ export class ReplayRecorder {
 
             this.mediaRecorder = new MediaRecorder(combinedStream, {
                 mimeType: supportedMimeType,
-                videoBitsPerSecond: isFirefox ? undefined : 5000000,
+                videoBitsPerSecond: isFirefox ? undefined : 2500000,
             });
 
             this.mediaRecorder.ondataavailable = (e) => {
@@ -92,8 +91,8 @@ export class ReplayRecorder {
 
             this.mediaRecorder.start();
             this.isRecording = true;
-            // Draw immediately handled by main loop
-        
+            // Note: update() is now called from the main render loop to ensure synchronization
+
         } catch (e) {
             console.error("Error initializing MediaRecorder:", e);
         }

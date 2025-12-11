@@ -27,7 +27,11 @@ export class ReplayRecorder {
             let combinedStream = videoStream;
             if (this.audioManager?.audioContext && this.audioManager?.masterGain) {
                 this.audioDestination = this.audioManager.audioContext.createMediaStreamDestination();
-                this.audioManager.masterGain.connect(this.audioDestination);
+                // Introduce a slight delay so recorded audio aligns with video frames
+                this.audioDelayNode = this.audioManager.audioContext.createDelay(1.0);
+                this.audioDelayNode.delayTime.value = 0.1; // 100ms delay to compensate for early audio
+                this.audioManager.masterGain.connect(this.audioDelayNode);
+                this.audioDelayNode.connect(this.audioDestination);
                 
                 // Combine video and audio tracks
                 const audioTrack = this.audioDestination.stream.getAudioTracks()[0];
@@ -82,7 +86,16 @@ export class ReplayRecorder {
                     
                     // Disconnect audio destination
                     if (this.audioDestination && this.audioManager?.masterGain) {
-                        this.audioManager.masterGain.disconnect(this.audioDestination);
+                        try {
+                            if (this.audioDelayNode) {
+                                this.audioManager.masterGain.disconnect(this.audioDelayNode);
+                                this.audioDelayNode.disconnect(this.audioDestination);
+                            } else {
+                                this.audioManager.masterGain.disconnect(this.audioDestination);
+                            }
+                        } catch (e) {
+                            console.warn("Error disconnecting audio nodes:", e);
+                        }
                     }
                     
                     resolve(blob);

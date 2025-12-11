@@ -15,14 +15,18 @@ export class ReplayRecorder {
         this.canvas.height = this.height;
         this.ctx = this.canvas.getContext('2d');
 
+        // Initialize background to prevent initial black/transparent frame
+        this.ctx.fillStyle = '#111';
+        this.ctx.fillRect(0, 0, this.width, this.height);
+
         // Load QR Code
         this.qrImage = new Image();
         this.qrImage.crossOrigin = "Anonymous";
         this.qrImage.src = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://stacker.on.websim.com&bgcolor=ffffff&color=000000&margin=0";
 
         try {
-            // Use 0 to capture frames automatically when the canvas is painted to ensure perfect AV sync
-            const videoStream = this.canvas.captureStream(0);
+            // Use fps to capture frames at a steady rate to ensure compatibility
+            const videoStream = this.canvas.captureStream(fps);
             
             // Create audio destination node if audio context is available
             let combinedStream = videoStream;
